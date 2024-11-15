@@ -83,7 +83,7 @@ public class SecondaryController implements Initializable {
         etu_label_id.setText(e.getId()+"");
         etu_label_nom.setText(e.getNom());
         etu_label_prenom.setText(e.getPrenom());
-        //etu_datepick_naiss.set
+        //etu_datepick_naiss.setValue(e.getDdn());
         // datepicker find setitems
         
     }

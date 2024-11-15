@@ -15,8 +15,8 @@ public class SingletonWebServiceClient {
 
     private static SingletonWebServiceClient Instance = null;
     private OkHttpClient leSeulClientHttp = null;
-    //private String BASE_URL = "https://sio.jbdelasalle.com" ;
-    private String BASE_URL = "http://192.168.154.3" ;
+    private String BASE_URL = "https://sio.jbdelasalle.com" ;
+    //private String BASE_URL = "http://192.168.154.3" ;
 
     private SingletonWebServiceClient() {
         this.leSeulClientHttp = SSLUtil.getUnsafeOkHttpClient();
