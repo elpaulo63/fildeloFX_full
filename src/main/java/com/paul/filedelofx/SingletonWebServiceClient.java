@@ -15,6 +15,8 @@ public class SingletonWebServiceClient {
 
     private static SingletonWebServiceClient Instance = null;
     private OkHttpClient leSeulClientHttp = null;
+    //private String BASE_URL = "https://sio.jbdelasalle.com" ;
+    private String BASE_URL = "http://192.168.154.3" ;
 
     private SingletonWebServiceClient() {
         this.leSeulClientHttp = SSLUtil.getUnsafeOkHttpClient();
@@ -29,10 +31,11 @@ public class SingletonWebServiceClient {
 
     public Enseignant identifier(String login, String mdp) throws IOException, ParseException {
         Request request = new Request.Builder()
-                .url("https://sio.jbdelasalle.com/~ptourret/fildelo/ws.php?action=identifier&login=" + login + "&mdp=" + mdp)
+                .url(BASE_URL+"/~ptourret/fildelo/ws.php?action=identifier&login=" + login + "&mdp=" + mdp)
                 .build();
         Response response = leSeulClientHttp.newCall(request).execute();
         String repStr = response.body().string();
+        System.out.println("Reponse : "+repStr);
         JSONParser parser = new JSONParser();
         JSONObject jsono = (JSONObject) parser.parse(repStr);
         Enseignant e = new Enseignant(
@@ -46,10 +49,11 @@ public class SingletonWebServiceClient {
     public ObservableList<Enseignant> getAllEnseignantsAdmin() throws IOException, ParseException {
         ObservableList<Enseignant> allEnseignantsAdmin = FXCollections.observableArrayList();
         Request request = new Request.Builder()
-                .url("https://sio.jbdelasalle.com/~ptourret/fildelo/ws.php?action=getLesAdmins")
+                .url(BASE_URL+"/~ptourret/fildelo/ws.php?action=getLesAdmins")
                 .build();
         Response response = leSeulClientHttp.newCall(request).execute();
         String repStr = response.body().string();
+        System.out.println("Reponse : "+repStr);
         JSONParser parser = new JSONParser();
         JSONArray jsona = (JSONArray) parser.parse(repStr);
         for (int cpt = 0; cpt < jsona.size(); cpt++) {
@@ -69,10 +73,11 @@ public class SingletonWebServiceClient {
     public ObservableList<Promo> getAllPromos() throws IOException, ParseException {
         ObservableList<Promo> AllPromo = FXCollections.observableArrayList();
         Request request = new Request.Builder()
-                .url("https://sio.jbdelasalle.com/~ptourret/fildelo/ws.php?action=getAllPromos")
+                .url(BASE_URL+"/~ptourret/fildelo/ws.php?action=getAllPromos")
                 .build();
         Response response = leSeulClientHttp.newCall(request).execute();
         String repStr = response.body().string();
+        System.out.println("Reponse : "+repStr);
         JSONParser parser = new JSONParser();
         JSONArray jsona = (JSONArray) parser.parse(repStr);
         for (int cpt = 0; cpt < jsona.size(); cpt++) {
@@ -88,10 +93,11 @@ public class SingletonWebServiceClient {
     public ObservableList<Promo> getPromobyAnneePromo(String annee) throws IOException, ParseException {
         ObservableList<Promo> allPromos = FXCollections.observableArrayList();
         Request request = new Request.Builder()
-                .url("https://sio.jbdelasalle.com/~ptourret/fildelo/ws.php?action=getPromobyAnneePromo&promo=" +annee)
+                .url(BASE_URL+"/~ptourret/fildelo/ws.php?action=getPromobyAnneePromo&promo=" +annee)
                 .build();
         Response response = leSeulClientHttp.newCall(request).execute();
         String repStr = response.body().string();
+        System.out.println("Reponse : "+repStr);
         JSONParser parser = new JSONParser();
         JSONArray jsona =(JSONArray) parser.parse(repStr);
         for (int cpt = 0; cpt < jsona.size(); cpt++) {
@@ -106,28 +112,59 @@ public class SingletonWebServiceClient {
     }
     
     
-        public ObservableList<Etudiant> getEtudiantbyPromo(Promo promo) throws IOException, ParseException {
+    public ObservableList<Etudiant> getEtudiantbyPromo(Promo promo) throws IOException, ParseException {
         ObservableList<Etudiant> allEtudiants = FXCollections.observableArrayList();
         Request request = new Request.Builder()
-                .url("https://sio.jbdelasalle.com/~ptourret/fildelo/ws.php?action=getEtudiantsbypromo&promo=" +promo.getPromo())
+                .url(BASE_URL + "/~ptourret/fildelo/ws.php?action=getEtudiantsbypromo&promo=" + promo.getPromo())
                 .build();
         Response response = leSeulClientHttp.newCall(request).execute();
         String repStr = response.body().string();
+        System.out.println("Reponse : " + repStr);
+        JSONParser parser = new JSONParser();
+        JSONArray jsona = (JSONArray) parser.parse(repStr);
+        for (int cpt = 0; cpt < jsona.size(); cpt++) {
+            JSONObject jsono = (JSONObject) jsona.get(cpt);
+            Etudiant e = new Etudiant(
+                    Integer.parseInt(jsono.get("id").toString()) ,
+                    (String) jsono.get("nom"),
+                    (String) jsono.get("prenom"),
+                    (String) jsono.get("dh"));
+
+            allEtudiants.add(e);
+
+        }
+        return allEtudiants;
+    }
+    
+    
+            public ObservableList<Etudiant> getEtudiantsSansPromo() throws IOException, ParseException {
+        ObservableList<Etudiant> allEtudiantsSanspromo = FXCollections.observableArrayList();
+        Request request = new Request.Builder()
+                .url(BASE_URL+"/~ptourret/fildelo/ws.php?action=getEtudiantssanspromo")
+                .build();
+        Response response = leSeulClientHttp.newCall(request).execute();
+        String repStr = response.body().string();
+        System.out.println("Reponse : "+repStr);
         JSONParser parser = new JSONParser();
         JSONArray jsona =(JSONArray) parser.parse(repStr);
         for (int cpt = 0; cpt < jsona.size(); cpt++) {
             JSONObject jsono = (JSONObject) jsona.get(cpt);
             Etudiant e = new Etudiant(
+                     Integer.parseInt(jsono.get("id").toString()) ,
                     (String)jsono.get("nom"), 
                     (String) jsono.get("prenom"),
                     (String) jsono.get("dh"));
             
-            allEtudiants.add(e);           
+            allEtudiantsSanspromo.add(e);           
             
         }
-        return allEtudiants;
+        return allEtudiantsSanspromo;
     }
-    public ObservableList<Enseignant> getEncadrantPromo( Enseignant ens)
+            
+            
+    public ObservableList<Enseignant> getEncadrantPromo( Enseignant ens){
+        return null ;
+    }
     
     
 

@@ -10,6 +10,12 @@ public class Promo {
     public String getPromo() {
         return promo;
     }
+
+    @Override
+    public String toString() {
+        return promo ;
+    }
+    
     
     
     

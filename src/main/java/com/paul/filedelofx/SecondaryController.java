@@ -48,8 +48,12 @@ public class SecondaryController implements Initializable {
         promo_lv.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             updateLVEtudiants() ;
         });
+        etu_promo_lv.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            updateFicheEtudiant() ;
+        });
         try {
             promo_lv.setItems(SingletonWebServiceClient.getInstance().getAllPromos());
+            updateLVEtudiantsSansPromo();
         } catch (IOException | ParseException ex) {
             Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,6 +67,25 @@ public class SecondaryController implements Initializable {
         } catch (IOException | ParseException ex) {
             Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void updateLVEtudiantsSansPromo()  {
+        try {
+            etu_spromo_lv.setItems(SingletonWebServiceClient.getInstance().getEtudiantsSansPromo());
+        } catch (ParseException | IOException ex) {
+            Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    private void updateFicheEtudiant() {
+        Etudiant e = etu_promo_lv.getSelectionModel().getSelectedItem() ;
+        etu_label_id.setText(e.getId()+"");
+        etu_label_nom.setText(e.getNom());
+        etu_label_prenom.setText(e.getPrenom());
+        //etu_datepick_naiss.set
+        // datepicker find setitems
+        
     }
     
 }
