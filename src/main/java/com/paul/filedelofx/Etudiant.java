@@ -27,6 +27,24 @@ public class Etudiant extends Personne{
         return prenom;
     }
 
+    public void setDdn(String ddn) {
+        this.ddn = ddn;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+    
+    
+
     
     
     

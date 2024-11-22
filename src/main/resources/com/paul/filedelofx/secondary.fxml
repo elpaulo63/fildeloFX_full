@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -18,5 +19,6 @@
       <Label fx:id="etu_label_nom" layoutX="429.0" layoutY="192.0" prefHeight="18.0" prefWidth="145.0" text="Label" />
       <DatePicker fx:id="etu_datepick_naiss" layoutX="411.0" layoutY="227.0" />
       <ComboBox fx:id="etu_combobox_promo" layoutX="411.0" layoutY="263.0" prefWidth="150.0" />
+      <Button layoutX="460.0" layoutY="310.0" mnemonicParsing="false" onAction="#onClickUpdate" text="MàJ" />
    </children>
 </AnchorPane>

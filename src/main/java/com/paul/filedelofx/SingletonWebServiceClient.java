@@ -15,8 +15,8 @@ public class SingletonWebServiceClient {
 
     private static SingletonWebServiceClient Instance = null;
     private OkHttpClient leSeulClientHttp = null;
-    private String BASE_URL = "https://sio.jbdelasalle.com" ;
-    //private String BASE_URL = "http://192.168.154.3" ;
+    //private String BASE_URL = "https://sio.jbdelasalle.com" ;
+    private String BASE_URL = "http://192.168.154.3" ;
 
     private SingletonWebServiceClient() {
         this.leSeulClientHttp = SSLUtil.getUnsafeOkHttpClient();
@@ -128,7 +128,7 @@ public class SingletonWebServiceClient {
                     Integer.parseInt(jsono.get("id").toString()) ,
                     (String) jsono.get("nom"),
                     (String) jsono.get("prenom"),
-                    (String) jsono.get("dh"));
+                    (String) jsono.get("ddn"));
 
             allEtudiants.add(e);
 
@@ -153,7 +153,7 @@ public class SingletonWebServiceClient {
                      Integer.parseInt(jsono.get("id").toString()) ,
                     (String)jsono.get("nom"), 
                     (String) jsono.get("prenom"),
-                    (String) jsono.get("dh"));
+                    (String) jsono.get("ddn"));
             
             allEtudiantsSanspromo.add(e);           
             
@@ -164,6 +164,10 @@ public class SingletonWebServiceClient {
             
     public ObservableList<Enseignant> getEncadrantPromo( Enseignant ens){
         return null ;
+    }
+
+    void updateEtudiant(Etudiant eSel) {
+        
     }
     
     
