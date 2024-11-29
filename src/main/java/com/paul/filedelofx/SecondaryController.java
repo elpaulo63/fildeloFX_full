@@ -54,6 +54,7 @@ public class SecondaryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         promo_lv.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             updateLVEtudiants();
+            updateLVEnsencaPromo();
         });
         etu_promo_lv.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             eSel = etu_promo_lv.getSelectionModel().getSelectedItem();
@@ -130,8 +131,17 @@ public class SecondaryController implements Initializable {
         String format = value.format(DateTimeFormatter.ISO_LOCAL_DATE);
         eSel.setDdn(format);
         SingletonWebServiceClient.getInstance().updateEtudiant(eSel) ;
-        // go ws update etu create
+        // go ws update etu create bouton
 
+    }
+
+    private void updateLVEnsencaPromo() {
+        Promo p = promo_lv.getSelectionModel().getSelectedItem();
+        try {
+            ens_encapromo_lv.setItems(SingletonWebServiceClient.getInstance().getEncadrantPromo(p));
+        } catch (IOException | ParseException ex) {
+            Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
